@@ -172,6 +172,15 @@ K4AROSDevice::K4AROSDevice()
 
     RCLCPP_INFO_STREAM(this->get_logger(),"Found " << k4a_device_count << " sensors");
 
+    if (params_.sensor_sn.front() == '\'')
+    {
+      params_.sensor_sn.erase(0,1);
+    }
+    if (params_.sensor_sn.back() == '\'')
+    {
+      params_.sensor_sn.pop_back();
+    }
+
     if (params_.sensor_sn != "")
     {
       RCLCPP_INFO_STREAM(this->get_logger(),"Searching for sensor with serial number: " << params_.sensor_sn);
@@ -1472,3 +1481,4 @@ void K4AROSDevice::updateTimestampOffset(const std::chrono::microseconds& k4a_de
                                      std::floor(alpha * (device_to_realtime - device_to_realtime_offset_).count())));
   }
 }
+
